@@ -22,7 +22,6 @@ class MainViewController: UIViewController {
     
     //UIImageView
     private lazy var avatarImage = setupImageView(image: .avatar, cornerRadius: 10, size: 45)
-    private lazy var bellImage = setupImageView(image: .bell, cornerRadius: 0, size: 20, tintColor: .lightSilver)
     
     //UIStackView
     private lazy var mainStack: UIStackView = {
@@ -63,6 +62,7 @@ class MainViewController: UIViewController {
     }(UITextField())
     
     //UIButton
+    private lazy var bellButton = setButton(image: .bell, tintColor: .lightSilver, radius: 0, heightButton: 20, heightImage: 20)
     private lazy var searchButton = setButton(image: .lens, tintColor: .white, bgColor: .raisinBlack, radius: 16, heightButton: 50, heightImage: 16)
     private lazy var openTripArrowButton = setButton(action: action, image: .arrow, radius: 0, heightButton: 20, heightImage: 20)
     private lazy var openCategoryArrowButton = setButton(image: .arrow, radius: 0, heightButton: 20, heightImage: 20)
@@ -78,9 +78,12 @@ class MainViewController: UIViewController {
         let imageView = UIImageView(image: .portraitRock)
         $0.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        //isUserInteractionEnabled обязателен если кнопка располагается в UIImageView, иначе кнопка будет под слоем ImageView
+        // и не будет нажиматься
         imageView.isUserInteractionEnabled = true
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
+        //позволяет сместить изображение внутри контейнера UIImageView
         imageView.layer.contentsRect = CGRect(x: 0, y: -0.31, width: 1, height: 1.1)
         imageView.layer.cornerRadius = 26
         $0.backgroundColor = .white
@@ -122,17 +125,21 @@ class MainViewController: UIViewController {
     
     private lazy var popularCategoryView: UIView = {
         let imageView = UIImageView(image: .landscapeRock)
+        
         $0.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 18
         $0.layer.shadowColor = UIColor.black.cgColor
         $0.layer.shadowOpacity = 0.1
         $0.layer.shadowOffset = .zero
         $0.layer.shadowRadius = 10
+        
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleToFill
         imageView.layer.cornerRadius = 26
+        
         $0.addSubview(imageView)
         $0.addSubview(titleCategory)
         $0.addSubview(subtitleCategory)
@@ -153,8 +160,6 @@ class MainViewController: UIViewController {
             
             openCategoryArrowButton.topAnchor.constraint(equalTo: $0.topAnchor, constant: 20),
             openCategoryArrowButton.trailingAnchor.constraint(equalTo: $0.trailingAnchor, constant: -20),
-            
-            
         ])
         
         return $0
@@ -168,7 +173,7 @@ class MainViewController: UIViewController {
         
         mainStack.addArrangedSubview(avatarImage)
         mainStack.addArrangedSubview(textStack)
-        mainStack.addArrangedSubview(bellImage)
+        mainStack.addArrangedSubview(bellButton)
         
         textStack.addArrangedSubview(welcomeLabel)
         textStack.addArrangedSubview(userNameLabel)
